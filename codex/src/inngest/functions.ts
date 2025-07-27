@@ -1,4 +1,4 @@
-import {openai, createAgent,createTool, createNetwork } from "@inngest/agent-kit";
+import {gemini, createAgent,createTool, createNetwork } from "@inngest/agent-kit";
 import { Sandbox } from '@e2b/code-interpreter';
 import { inngest } from "./client";
 import { getSandbox, lastAssistantTextMessageContent } from "./utils";
@@ -18,12 +18,12 @@ export const helloWorld = inngest.createFunction(
       name: "code-agent",
       description: "An expert coding agent",
       system: `${PROMPT}`,
-      model: openai({
-        model: "gpt-4o-mini",
-        defaultParameters: {
-          temperature: 0.1,
-        },
-        apiKey: process.env.OPEN_AI_API_KEY
+      model: gemini({
+        model: "gemini-2.0-flash",
+        // defaultParameters: {
+        //   temperature: 0.5,
+        // },
+        apiKey: process.env.GEMINI_API_KEY,
       }),
       tools: [
         createTool({
@@ -93,7 +93,7 @@ export const helloWorld = inngest.createFunction(
           description: "Read files from the sandbox",
           parameters: z.object({
             files: z.array(z.string())
-          }) as any,
+          }),
           handler: async ({ files }, { step }) => {
             return await step?.run("read-files", async () => {
               try {
