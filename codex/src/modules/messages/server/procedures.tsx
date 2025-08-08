@@ -3,7 +3,7 @@ import { prisma } from "@/lib/db"
 import { inngest } from "@/inngest/client";
 import {z} from "zod";
 
-export const messaageRouter = createTRPCRouter({
+export const messageRouter = createTRPCRouter({
     getMany: baseProcedure.query(async () => {
         const messages = await prisma.message.findMany({
             orderBy: {
@@ -19,11 +19,13 @@ export const messaageRouter = createTRPCRouter({
         .input(
             z.object({
                 value: z.string().min(1, "Message cannot be empty"),
+                projectId: z.string().min(1, "Project ID is required")
             })
         )
         .mutation(async ({ input }) => {
             const createMessage = await prisma.message.create({
                 data: {
+                    projectId: input.projectId,
                     content: input.value,
                     role: "USER",
                     type: "RESULT",
@@ -33,7 +35,8 @@ export const messaageRouter = createTRPCRouter({
             await inngest.send({
                 name: "codeAgentFunction/run",
                 data: {
-                    value: input.value
+                    value: input.value,
+                    projectId: input.projectId
                 },
             });
             return createMessage;

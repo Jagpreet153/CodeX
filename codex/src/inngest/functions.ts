@@ -150,6 +150,7 @@ export const codeAgentFunction = inngest.createFunction(
     if (isError) {
       return await prisma.message.create({
         data: {
+          projectId: event.data.projectId,
           content: "Please try again",
           role: "ASSISTANT",
           type: "RESULT",
@@ -166,16 +167,17 @@ export const codeAgentFunction = inngest.createFunction(
     await step.run("save-result", async () => {
       return await prisma.message.create({
         data: {
+          projectId: event.data.projectId,
           content: result.state.data.summary,
           role: "ASSISTANT",
           type: "RESULT",
-          fragment: {
-            create: {
-              sandboxUrl: sandboxUrl,
-              title: "Fragment",
-              files: result.state.data.files,
-            }
-          }
+          // fragment: {
+          //   create: {
+          //     sandboxUrl: sandboxUrl,
+          //     title: "Fragment",
+          //     files: result.state.data.files,
+          //   }
+          // }
         }
       })
     });
