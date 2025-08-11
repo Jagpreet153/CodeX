@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import TextAreaAutosize from "react-textarea-autosize";
+import TextAutosize from "react-textarea-autosize";
 import { toast } from 'sonner'
 import { ArrowUpIcon, Loader2Icon } from "lucide-react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
@@ -26,17 +26,6 @@ const formSchema = z.object({
 export const MessageForm = ({ projectId }: Props) => {
     const trpc = useTRPC();
     const queryClient = useQueryClient();
-    const createMessage = useMutation(trpc.messages.create.mutationOptions({
-        onSuccess: ({data}) => {
-            form.reset();
-            queryClient.invalidateQueries(trpc.messages.getMan);
-            toast.success("Message sent!");
-        },
-        onError: () => {
-            toast.error("Failed to send message.");
-        }
-    }));
-
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -45,6 +34,18 @@ export const MessageForm = ({ projectId }: Props) => {
         }
     });
 
+    const createMessage = useMutation(trpc.messages.create.mutationOptions({
+        onSuccess: (data) => {
+            form.reset();
+            queryClient.invalidateQueries(trpc.messages.getMany.queryOptions({projectId}));
+            toast.success("Message sent!");
+        },
+        onError: (error) => {
+            //pricing error 
+            console.log(error);
+            toast.error(error.message);
+        }
+    }));
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         await createMessage.mutateAsync({
@@ -53,9 +54,11 @@ export const MessageForm = ({ projectId }: Props) => {
         });
     };
 
+
+
     const [isFocused, setIsFocused] = useState(false);
-    const isPending = false; // FIXTION NEEDED
-    const isButtonDisabled = isPending  // FIXTION NEEDED
+    const isPending = createMessage.isPending;
+    const isButtonDisabled = isPending || !form.formState.isValid;
     const showUsage = false;
     return (
         <Form {...form}>
@@ -70,10 +73,9 @@ export const MessageForm = ({ projectId }: Props) => {
                     control={form.control}
                     name="value"
                     render={({ field }) => (
-                        <TextAreaAutosize
+                        <TextAutosize
                             {...field}
                             disabled={isPending}
-
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
                             minRows={2}
@@ -102,7 +104,7 @@ export const MessageForm = ({ projectId }: Props) => {
                         disabled={isButtonDisabled}
                         className={cn(
                             "size-8 rounded-full",
-                            isButtonDisabled && "bg-muted-foreground border-muted-foreground"
+                            isButtonDisabled && "bg-muted-foreground border"
                         )}>
                         {isPending ? <Loader2Icon className="size-4 animate-spin" /> : <ArrowUpIcon />}
                     </Button>
