@@ -3,6 +3,7 @@ import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { MessagesContainer } from "../components/message-container";
 import { ProjectHeader } from "../components/project-header";
+import { FragmentWeb } from "../components/fragment-web";
 import {
     ResizableHandle,
     ResizablePanel,
@@ -38,7 +39,7 @@ export const ProjectViews = ({ projectId }: Props) => {
                 <ResizableHandle withHandle />
                 
             <ResizablePanel defaultSize={65} minSize={50}>
-                TODO: PREIVIEW
+                {!!activeFragment && <FragmentWeb data={activeFragment} />}
                 </ResizablePanel>
             </ResizablePanelGroup>
         </div>
