@@ -34,8 +34,8 @@ export const ProjectHeader = ({ projectId }: Props) => {
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="focus-visible:ring-0 hover:bg-transparent hover:opacity-75 transition-opacity !pl-2">
                         <Image src='/logo.svg' alt="logo" width={18} height={18} />
-                        <span className='text-sm font-medium'>{project.name}
-                            <ChevronDownIcon/>
+                        <span className='text-sm font-medium flex justify-center items-center'>{project.name}
+                            <ChevronDownIcon className='mt-1'/>
                         </span>
                     </Button>
                 </DropdownMenuTrigger>
