@@ -3,13 +3,13 @@ import { prisma } from "@/lib/db"
 import { inngest } from "@/inngest/client";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { consumeCredits } from "@/lib/usage";
 
 export const messageRouter = createTRPCRouter({
     getMany: protectedProcedure
          .input(
             z.object({
-                projectId: z.string().min(1, "Project ID is required"),
-                // value: z.string().min(1, "Message cannot be empty"),
+                projectId: z.string().min(1, "Project ID is required")
             })
         )
         .query(async ({ input, ctx }) => {
@@ -26,6 +26,7 @@ export const messageRouter = createTRPCRouter({
                     message: "Project not found"
                 });
             }
+
             const messages = await prisma.message.findMany({
                 where: {
                     projectId: input.projectId,
@@ -62,6 +63,25 @@ export const messageRouter = createTRPCRouter({
                     code: "NOT_FOUND",
                     message: "Project not found"
                 });
+            }
+            
+             try {
+                await consumeCredits();
+            } 
+            catch (error) {
+                if (error instanceof Error) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: error.message
+                    });
+                }
+
+                else {
+                    throw new TRPCError({
+                        code: "TOO_MANY_REQUESTS",
+                        message: "Failed to consume credits"
+                    });
+                }
             }
 
             const createMessage = await prisma.message.create({
