@@ -42,13 +42,17 @@ export const ProjectForm = () => {
             form.reset();
             trpc.projects.getMany.queryOptions();
             router.push(`/projects/${data.id}`);
+            queryClient.invalidateQueries(trpc.usage.status.queryOptions());
         },
         onError: (error) => {
-            //pricing error
-            toast.error(error.message);
             if (error.data?.code === "UNAUTHORIZED") {
                 clerk.openSignIn();
             }
+            else if (error.data?.code === "TOO_MANY_REQUESTS") {
+                router.push('/pricing');
+            }
+            toast.error(error.message);
+            
         }
     }));
 

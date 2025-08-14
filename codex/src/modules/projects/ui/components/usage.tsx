@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CrownIcon } from "lucide-react";
 import { formatDuration, intervalToDuration } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
     points: number;
@@ -9,12 +10,15 @@ interface Props {
 }
 export const Usage = ({ points, msBeforeNext }: Props) => {
     const duration = intervalToDuration({ start: 0, end: msBeforeNext });
+    const { has } = useAuth();
+    const hasProAccess = has?.({ plan: "pro" });
+
     return ( 
         <div className=" rounded-t-xl bg-background border border-b-0 p-2.5">
             <div className="flex items-center gap-x-2">
                 <div>
                     <p className="text-sm">
-                        {points} free points remaining
+                        {points} {hasProAccess ? "" : "free"} points remaining
                     </p>
                     <p className="text-sm text-muted-foreground">
                         Resets in {" "}
@@ -23,11 +27,11 @@ export const Usage = ({ points, msBeforeNext }: Props) => {
                     </p>
                 </div>
 
-                <Button asChild size="sm" variant="tertiary" className="ml-auto">
+                {!hasProAccess && <Button asChild size="sm" variant="tertiary" className="ml-auto">
                     <Link href="/pricing">
                         <CrownIcon className="mr-2 h-4 w-4" /> Upgrade
                     </Link>
-                </Button>
+                </Button>}
             </div>
         </div>
     );

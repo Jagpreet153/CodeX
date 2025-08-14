@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { useState } from "react";
 import { Usage } from "./usage";
+import {useRouter} from "next/navigation";
 
 interface Props{
     projectId: string;
@@ -28,6 +29,7 @@ export const MessageForm = ({ projectId }: Props) => {
     const trpc = useTRPC();
     const queryClient = useQueryClient();
 
+    const router = useRouter();
     const {data: usage} = useQuery(trpc.usage.status.queryOptions());
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -39,13 +41,15 @@ export const MessageForm = ({ projectId }: Props) => {
     const createMessage = useMutation(trpc.messages.create.mutationOptions({
         onSuccess: (data) => {
             form.reset();
-            queryClient.invalidateQueries(trpc.messages.getMany.queryOptions({projectId}));
+            queryClient.invalidateQueries(trpc.messages.getMany.queryOptions({ projectId }));
+            queryClient.invalidateQueries(trpc.usage.status.queryOptions());
             toast.success("Message sent!");
         },
         onError: (error) => {
-            //pricing error 
-            console.log(error);
+            if (error.data?.code === "TOO_MANY_REQUESTS")
+                router.push('/pricing');
             toast.error(error.message);
+
         }
     }));
 
