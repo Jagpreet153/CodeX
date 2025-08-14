@@ -11,7 +11,7 @@ export const projectsRouter = createTRPCRouter({
         .input(z.object({
             id: z.string().min(1, "Project ID is required")
         }))
-        .query(async ({ input,ctx }) => {
+        .query(async ({ input, ctx }) => {
             const existingProject = await prisma.project.findUnique({
                 where: {
                     id: input.id,

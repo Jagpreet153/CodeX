@@ -18,11 +18,10 @@ import Link from "next/link";
 import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 interface Props {
     projectId: string;
-    activeFragment: Fragment | null;
-    setActiveFragment: (fragment: Fragment | null) => void;
 };
 
 export const ProjectViews = ({ projectId }: Props) => {
@@ -37,16 +36,17 @@ export const ProjectViews = ({ projectId }: Props) => {
         <div className="h-screen">
             <ResizablePanelGroup direction="horizontal">
                 <ResizablePanel defaultSize={35} minSize={20} className="flex flex-col min-h-0" >
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <ProjectHeader projectId={projectId}/>
-                </Suspense>
-                <Suspense fallback={<div>Loading...</div>}>
-                        <MessagesContainer
-                            projectId={projectId}
-                            activeFragment={activeFragment}
-                            setActiveFragment={setActiveFragment}
-                        />
-                </Suspense>
+                    <ErrorBoundary fallback={<div>Message cannot be loaded</div>}>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <ProjectHeader projectId={projectId}/>
+                        </Suspense>
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <MessagesContainer
+                                    projectId={projectId}
+                                    activeFragment={activeFragment}
+                                    setActiveFragment={setActiveFragment}/>
+                            </Suspense>
+                   </ErrorBoundary>
             </ResizablePanel>
 
                 <ResizableHandle className="hover:bg-primary transition-colors"  />
