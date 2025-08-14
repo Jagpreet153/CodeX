@@ -150,7 +150,7 @@ export const FileExplorer = ({ files }: FileExplorerProps) => {
             <div className="flex-1 overflow-auto bg-white dark:bg-gray-900">
               <CodeView
                 code={files[selectedFile]}
-                lang={getLanguageFromExtension(selectedFile)}
+                lang={getLanguageFromExtension(selectedFile) ?? "text"}
               />
             </div>
           </div>

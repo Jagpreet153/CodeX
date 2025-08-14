@@ -1,6 +1,5 @@
 "use client"
 import { useTRPC } from "@/trpc/client";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { MessagesContainer } from "../components/message-container";
 import { ProjectHeader } from "../components/project-header";
 import { Tabs, TabsContent, TabsTrigger, TabsList } from "@/components/ui/tabs"
@@ -29,7 +28,6 @@ export const ProjectViews = ({ projectId }: Props) => {
     const [activeFragment, setActiveFragment] = useState<Fragment | null>(null);
 
     const [tabState, setTabState] = useState<"preview" | "code">("preview");
-    const trpc = useTRPC();
     const { has }= useAuth();
     const hasProAccess = has?.({ plan: "pro" });
     return (

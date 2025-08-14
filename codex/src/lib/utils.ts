@@ -49,7 +49,7 @@ export function convertFilesToTreeItems(
   }
 
   // Convert tree structure to TreeItem format
-  function convertNode(node: TreeNode, name?: string): TreeItem[] | TreeItem {
+  function convertNode(node: TreeNode, name?: TreeItem[]): TreeItem[] | TreeItem {
     const entries = Object.entries(node);
 
     if (entries.length === 0) {

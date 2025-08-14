@@ -111,7 +111,7 @@ export const codeAgentFunction = inngest.createFunction(
           handler: async ({ files }, { step, network }: Tool.Options<AgentState>) => {
             const newFiles = await step?.run("create-or-update-files", async () => {
               try {
-                const updatedFiles = await network?.state?.data?.files || {};
+                const updatedFiles = await network?.state?.data?.file || {};
                 const sandbox = await getSandbox(sandboxId);
                 for (const f of files) {
                   await sandbox.files.write(f.path, f.content);
@@ -124,7 +124,7 @@ export const codeAgentFunction = inngest.createFunction(
             });
 
             if (typeof newFiles === "object" && network?.state?.data) {
-              network.state.data.files = newFiles;
+              network.state.data.file = newFiles;
             }
           }
         }),
@@ -230,7 +230,7 @@ export const codeAgentFunction = inngest.createFunction(
     };
 
 
-    const isError = !result.state.data.summary || (Object.keys(result.state.data.files || {}).length === 0);
+    const isError = !result.state.data.summary || (Object.keys(result.state.data.file || {}).length === 0);
     if (isError) {
       return await prisma.message.create({
         data: {
@@ -259,7 +259,7 @@ export const codeAgentFunction = inngest.createFunction(
             create: {
               sandboxUrl: sandboxUrl,
               title: generateFragmentTitle(),
-              files: result.state.data.files,
+              files: result.state.data.file,
             }
           }
         }
@@ -270,7 +270,7 @@ export const codeAgentFunction = inngest.createFunction(
       result,
       url: sandboxUrl,
       title: "Fragment",
-      files: result.state.data.files,
+      files: result.state.data.file,
       summary: result.state.data.summary
     }
   });

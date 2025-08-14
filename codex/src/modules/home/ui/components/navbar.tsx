@@ -4,7 +4,7 @@ import { UserControl } from "@/components/user-control"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton } from "@clerk/nextjs"
+import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs"
 import { useScroll } from "@/hooks/use-scroll"
 import { cn } from "@/lib/utils"
 

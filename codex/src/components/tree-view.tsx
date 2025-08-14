@@ -6,13 +6,13 @@ import {
 } from "@/components/ui/sidebar";
 import { ChevronRightIcon, FileIcon, FolderIcon } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible";
-import { se } from "date-fns/locale";
 
 
 
 interface TreeViewProps {
     data: TreeItem[];
     value?: string | null;
+    selectedFile: string | null;
     onSelect: (value: string) => void;
 };
 

@@ -1,4 +1,4 @@
-import { lazy, useState } from "react"
+import { useState } from "react"
 import { ExternalLinkIcon, RefreshCcwIcon } from "lucide-react"
 import { Fragment } from "@/generated/prisma"
 import { Button } from "@/components/ui/button"
