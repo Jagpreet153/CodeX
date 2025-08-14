@@ -34,7 +34,6 @@ export const ProjectViews = ({ projectId }: Props) => {
         <div className="h-screen">
             <ResizablePanelGroup direction="horizontal">
                 <ResizablePanel defaultSize={35} minSize={20} className="flex flex-col min-h-0" >
-                    <ErrorBoundary fallback={<div>Message cannot be loaded</div>}>
                         <Suspense fallback={<div>Loading...</div>}>
                             <ProjectHeader projectId={projectId}/>
                         </Suspense>
@@ -44,8 +43,7 @@ export const ProjectViews = ({ projectId }: Props) => {
                                     activeFragment={activeFragment}
                                     setActiveFragment={setActiveFragment}/>
                             </Suspense>
-                   </ErrorBoundary>
-            </ResizablePanel>
+                </ResizablePanel>
 
                 <ResizableHandle className="hover:bg-primary transition-colors"  />
                 

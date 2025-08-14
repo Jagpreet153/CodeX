@@ -49,11 +49,11 @@ export function convertFilesToTreeItems(
   }
 
   // Convert tree structure to TreeItem format
-  function convertNode(node: TreeNode, name?: TreeItem[]): TreeItem[] | TreeItem {
+function convertNode(node: TreeNode, name?: TreeItem[]): TreeItem[] | TreeItem {
     const entries = Object.entries(node);
 
     if (entries.length === 0) {
-      return name || "";
+      return name ?? [];
     }
 
     const children: TreeItem[] = [];
@@ -64,7 +64,7 @@ export function convertFilesToTreeItems(
         children.push(key);
       } else {
         // It's a folder
-        const subTree = convertNode(value, key);
+        const subTree = convertNode(value);
         if (Array.isArray(subTree)) {
           children.push([key, ...subTree]);
         } else {
