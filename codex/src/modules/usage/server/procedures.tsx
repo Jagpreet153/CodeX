@@ -3,11 +3,11 @@ import { createTRPCRouter, protectedProcedure } from '@/trpc/init'
 
 export const usageRouter = createTRPCRouter({
     status: protectedProcedure.query(async () => {
-        try {
-            const status = await getUsageStatus();
-            return status;
-        } catch  {
-            return null;
-        }
-    }),
+    try {
+        const result = await getUsageStatus();
+        return result;
+    } catch {
+        return null;
+    }
+}),
 });

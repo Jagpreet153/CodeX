@@ -44,21 +44,9 @@ export const projectsRouter = createTRPCRouter({
                 value: z.string()
                     .min(1, "Message cannot be empty")
                     .max(10000, "Message is too long"),
-                // projectId: z.string().min(1, "Project ID is required")
             })
         )
         .mutation(async ({ input,ctx }) => {
-            // const createMessage = await prisma.message.create({
-            //     data: {
-            //         ProjectId: input.projectId,
-            //         content: input.value,
-            //         role: "USER",
-            //         type: "RESULT",
-
-            //     }
-            // });
-            
-
             const createProject = await prisma.project.create({
                 data: {
                     userId: ctx.auth.userId,            

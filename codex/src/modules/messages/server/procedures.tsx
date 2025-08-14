@@ -79,7 +79,7 @@ export const messageRouter = createTRPCRouter({
                 else {
                     throw new TRPCError({
                         code: "TOO_MANY_REQUESTS",
-                        message: "Failed to consume credits"
+                        message: "You have  exceeded your usage limits"
                     });
                 }
             }

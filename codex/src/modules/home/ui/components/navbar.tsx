@@ -11,10 +11,9 @@ import { cn } from "@/lib/utils"
 export const Navbar = () => {
     const isScrolled = useScroll();
     return (
-        <nav className={cn({
-            "p-4 bg-transparent fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b border-transparent": !isScrolled,
-            "bg-white shadow-md border-b border-muted": isScrolled && "bg-background border-border"
-        })}>
+        <nav className={cn(
+            "p-4 bg-transparent fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b", isScrolled && "bg-background border-border"
+        )}>
             <div className="max-w-5xl mx-auto w-full flex justify-between items-center">
                 <Link href="/" className="flex items-center gap-2">
                     <Image

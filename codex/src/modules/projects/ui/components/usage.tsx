@@ -14,7 +14,7 @@ export const Usage = ({ points, msBeforeNext }: Props) => {
             <div className="flex items-center gap-x-2">
                 <div>
                     <p className="text-sm">
-                        {points} points - {formatDuration(duration)}
+                        {points} free points remaining
                     </p>
                     <p className="text-sm text-muted-foreground">
                         Resets in {" "}
