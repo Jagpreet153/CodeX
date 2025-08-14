@@ -43,7 +43,6 @@ export const MessageForm = ({ projectId }: Props) => {
             form.reset();
             queryClient.invalidateQueries(trpc.messages.getMany.queryOptions({ projectId }));
             queryClient.invalidateQueries(trpc.usage.status.queryOptions());
-            toast.success("Message sent!");
         },
         onError: (error) => {
             if (error.data?.code === "TOO_MANY_REQUESTS")

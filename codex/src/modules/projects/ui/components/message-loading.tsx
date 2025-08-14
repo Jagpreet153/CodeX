@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 const ShimmerMessages = () => {
     const messages = [
-        "messages",
         "Thinking.",
         "Loading...",
         "Generating.",
