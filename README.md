@@ -62,20 +62,20 @@ Tailwind CSS — Utility-first CSS framework for styling.
 
 ### File Structure: 
 codex/
-│   ├── prisma/                   # Prisma schema and migrations
-│   ├── public/                   # Static assets
+│   ├── prisma/                  
+│   ├── public/                   
 │   ├── src/
-│   │   ├── app/                   # Next.js app routes, pages, and layouts
-│   │   ├── components/            # UI components (e.g., CodePreview, PromptForm)
-│   │   ├── lib/                   # Utility functions and helpers
-│   │   ├── generated/             # Auto-generated Prisma client
-│   │   ├── server/                # tRPC routers and API logic
-│   │   ├── styles/                # TailwindCSS config and global styles
-│   │   └── types/                 # TypeScript type definitions
-│   ├── .env.example               # Example environment variables
+│   │   ├── app/                  
+│   │   ├── components/           
+│   │   ├── lib/                  
+│   │   ├── generated/            
+│   │   ├── server/                
+│   │   ├── styles/               
+│   │   └── types/          
+│   ├── .env.example         
 │   ├── package.json
 │   └── tsconfig.json
-├── .gitignore                     # Ignore unnecessary files
+├── .gitignore                    
 └── README.md
 
 
