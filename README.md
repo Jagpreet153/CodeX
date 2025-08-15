@@ -61,6 +61,8 @@ Tailwind CSS — Utility-first CSS framework for styling.
 
 
 ### File Structure: 
+
+``` bash
 codex/
 │   ├── prisma/                  
 │   ├── public/                   
@@ -77,6 +79,7 @@ codex/
 │   └── tsconfig.json
 ├── .gitignore                    
 └── README.md
+```
 
 
 
