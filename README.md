@@ -60,6 +60,25 @@ Next.js — React framework for SSR, SSG, and fast UI rendering.
 Tailwind CSS — Utility-first CSS framework for styling.
 
 
+### File Structure: 
+codex/
+│   ├── prisma/                   # Prisma schema and migrations
+│   ├── public/                   # Static assets
+│   ├── src/
+│   │   ├── app/                   # Next.js app routes, pages, and layouts
+│   │   ├── components/            # UI components (e.g., CodePreview, PromptForm)
+│   │   ├── lib/                   # Utility functions and helpers
+│   │   ├── generated/             # Auto-generated Prisma client
+│   │   ├── server/                # tRPC routers and API logic
+│   │   ├── styles/                # TailwindCSS config and global styles
+│   │   └── types/                 # TypeScript type definitions
+│   ├── .env.example               # Example environment variables
+│   ├── package.json
+│   └── tsconfig.json
+├── .gitignore                     # Ignore unnecessary files
+└── README.md
+
+
 
 #### Backend:
 tRPC — End-to-end typesafe APIs.
